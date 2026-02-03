@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}Lumen - Demo{% endblock %}</title>
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="home-icon" href="{{ url_for('dashboard_analytics') }}">🏠</a>
+        <nav class="nav">
+            <a href="{{ url_for('dashboard_analytics') }}">Dashboard</a>
+            <a href="{{ url_for('receipts_page') }}">Receipts</a>
+            <a href="{{ url_for('transactions_page') }}">Transactions</a>
+            <a href="{{ url_for('sync_gmail') }}" class="sync-btn" title="Sync Gmail Data">🔄 Sync Gmail</a>
+        </nav>
+      <div class="topbar-actions">
+        <a href="{{ url_for('wishlist_page') }}" class="wishlist-btn" title="Wishlist & Smart Advisor">
+          💝
+        </a>
+        <div class="profile">◯</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-wrap">
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

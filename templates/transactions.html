@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{% block title %}Transactions - Lumen{% endblock %}
+
+{% block head %}
+<style>
+  .topbar {
+    display: none !important;
+  }
+
+  .main {
+    padding: 0 !important;
+  }
+
+  /* Profile Dropdown Styles */
+  .profile-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    margin-top: 12px;
+    overflow: hidden;
+    animation: dropdownSlide 0.2s ease;
+  }
+
+  @keyframes dropdownSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: #f8fafc;
+  }
+
+  .dropdown-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1a365d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+
+  .dropdown-info {
+    flex: 1;
+  }
+
+  .dropdown-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a365d;
+    margin-bottom: 2px;
+  }
+
+  .dropdown-email {
+    font-size: 12px;
+    color: #718096;
+  }
+
+  .dropdown-divider {
+    height: 1px;
+    background: #e2e8f0;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    color: #4a5568;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .dropdown-item:hover {
+    background: #f8fafc;
+  }
+
+  .dropdown-item.logout-item {
+    color: #dc2626;
+  }
+
+  .dropdown-item.logout-item:hover {
+    background: #fef2f2;
+  }
+
+  .sidebar-profile:hover .profile-avatar {
+    transform: scale(1.05);
+    transition: transform 0.2s;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-profile" onclick="toggleProfileDropdown()" style="cursor: pointer; position: relative;">
+      <div class="profile-avatar">👤</div>
+      <div class="profile-name">{{ session.get('user_name', 'LUMEN User') }}</div>
+      <div class="profile-email">{{ session.get('user_email', 'finance@lumen.app') }}</div>
+
+      <!-- Profile Dropdown -->
+      <div id="profileDropdown" class="profile-dropdown" style="display: none;">
+        <div class="dropdown-header">
+          <div class="dropdown-avatar">👤</div>
+          <div class="dropdown-info">
+            <div class="dropdown-name">{{ session.get('user_name', 'LUMEN User') }}</div>
+            <div class="dropdown-email">{{ session.get('user_email', 'finance@lumen.app') }}</div>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <a href="{{ url_for('logout') }}" class="dropdown-item logout-item">
+          <span>🚪</span>
+          <span>Logout</span>
+        </a>
+      </div>
+    </div>
+
+
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('dashboard_analytics') }}" class="nav-item">
+        <span class="nav-icon">🏠</span>
+        <span>Dashboard</span>
+      </a>
+      <a href="{{ url_for('transactions_page') }}" class="nav-item active">
+        <span class="nav-icon">💳</span>
+        <span>Transactions</span>
+      </a>
+      <a href="{{ url_for('receipts_page') }}" class="nav-item">
+        <span class="nav-icon">📄</span>
+        <span>Receipts</span>
+      </a>
+      <a href="{{ url_for('wishlist_page') }}" class="nav-item">
+        <span class="nav-icon">💝</span>
+        <span>Wishlist</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="{{ url_for('sync_gmail') }}" class="sync-button">
+        🔄 Sync Gmail
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content-page">
+    <div class="page-panel">
+
+      <!-- Header -->
+      <div class="page-header">
+        <h2>💳 Transactions</h2>
+        <div class="transaction-count">
+          <span>{{ txns|length }} Transactions</span>
+        </div>
+      </div>
+
+      {% if txns %}
+      <!-- Transactions List -->
+      <div class="transactions-grid">
+        {% for t in txns %}
+        <div class="transaction-card">
+
+          <!-- Left: Transaction Info -->
+          <div class="transaction-info">
+            <div class="transaction-badges" style="display: flex; gap: 8px; margin-bottom: 8px;">
+              <!-- Type Badge -->
+              {% if t.type == 'credit' %}
+              <span class="transaction-badge badge-credit">↓ Credit</span>
+              {% else %}
+              <span class="transaction-badge badge-debit">↑ Debit</span>
+              {% endif %}
+
+              <!-- Category Badge -->
+              {% if t.category %}
+              <span class="transaction-badge badge-category">{{ t.category }}</span>
+              {% endif %}
+            </div>
+
+            <!-- Merchant Name -->
+            <div class="transaction-merchant">{{ t.merchant or "Unknown Merchant" }}</div>
+
+            <!-- Date -->
+            <div class="transaction-date">{{ t.date }}</div>
+          </div>
+
+          <!-- Right: Amount & Action -->
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <!-- Amount -->
+            <div class="transaction-amount {% if t.type == 'credit' %}amount-credit{% else %}amount-debit{% endif %}">
+              {% if t.type == 'credit' %}+{% else %}-{% endif %}₹{{ t.amount }}
+            </div>
+
+            <!-- View Details Button -->
+            <a href="{{ url_for('transaction_detail', txn_id=t.txn_id) }}" class="btn-secondary">
+              👁️ Details
+            </a>
+          </div>
+
+        </div>
+        {% endfor %}
+      </div>
+
+      {% else %}
+      <!-- Empty State -->
+      <div class="empty-state">
+        <div class="empty-state-icon">💰</div>
+        <h3 class="empty-state-title">No transactions yet</h3>
+        <p class="empty-state-description">
+          Sync your Gmail to see your transactions here
+        </p>
+      </div>
+      {% endif %}
+
+    </div>
+  </main>
+</div>
+
+<script>
+  // Profile Dropdown Toggle
+  function toggleProfileDropdown() {
+    const dropdown = document.getElementById('profileDropdown');
+    if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+      dropdown.style.display = 'block';
+    } else {
+      dropdown.style.display = 'none';
+    }
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function (event) {
+    const dropdown = document.getElementById('profileDropdown');
+    const profile = document.querySelector('.sidebar-profile');
+    if (dropdown && profile && !profile.contains(event.target)) {
+      dropdown.style.display = 'none';
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Lumen{% endblock %}
+{% block head %}
+<!-- any page-specific head -->
+{% endblock %}
+
+{% block content %}
+{% set data = chart_data | safe %}
+<div class="dashboard">
+  <div class="left-col">
+    <div class="panel big">
+      <canvas id="donutChart" data-chart='{{ data | safe }}'></canvas>
+    </div>
+
+    <div class="panel medium">
+      <div class="toggle">
+        <button class="toggle-active">Daily</button>
+        <button>Monthly</button>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="lineChart" data-chart='{{ data | safe }}'></canvas>
+      </div>
+    </div>
+
+    <div class="panel anomalies">
+      <h3>ANOMALIES</h3>
+      <ul>
+        {% set d = chart_data | from_json %}
+        {% for a in d.anomalies %}
+          <li>{{ a }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="right-col">
+    <div class="panel upload">
+      <form method="post" action="#" enctype="multipart/form-data">
+        <label class="upload-label">⬆ UPLOAD FILES</label>
+        <input type="file" name="file">
+        <button class="btn-primary" type="submit">Upload</button>
+      </form>
+    </div>
+
+    <div class="panel notes">
+      <ul>
+        <li>You need to pay wifi bills on 20th November.</li>
+        <li>You usually buy groceries around the 10th — time to restock</li>
+      </ul>
+    </div>
+
+    <div class="panel small">
+      <h4>Your most consistent spending last month</h4>
+      <canvas id="miniDonut" data-chart='{{ data | safe }}'></canvas>
+    </div>
+
+    <div class="panel moneyflow">
+      <h4>Money Flow</h4>
+      {% set d = chart_data | from_json %}
+      <p>Net Credit : ₹{{ d.net_credit }} &nbsp;&nbsp;&nbsp;&nbsp; Net Debit : ₹{{ d.net_debit }}</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // we provide chart data json in a global variable for charts.js to pick up
+  window.__CHART_DATA__ = {{ chart_data | safe }};
+</script>
+{% endblock %}

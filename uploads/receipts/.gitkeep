@@ -1,0 +1,2 @@
+# This file ensures the receipts directory is tracked by Git
+# Receipt files are ignored by .gitignore for privacy

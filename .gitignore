@@ -1,0 +1,42 @@
+# Environment variables containing secrets
+.env
+
+# Google OAuth credentials
+client_secret.json
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Uploaded files
+uploads/
+receipts/
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp

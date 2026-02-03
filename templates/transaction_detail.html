@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block title %}Transaction Details - Lumen{% endblock %}
+
+{% block content %}
+<div class="content-page">
+  <div class="page-panel">
+    
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+      <h2 style="margin: 0; font-size: 24px; color: white;">📋 Transaction Details</h2>
+      <a href="{{ url_for('transactions_page') }}" 
+         style="padding: 8px 16px; background: rgba(123, 60, 255, 0.2); color: #7b3cff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
+        ← Back to Transactions
+      </a>
+    </div>
+
+    <!-- Transaction Card -->
+    <div style="background: linear-gradient(135deg, rgba(123, 60, 255, 0.05) 0%, rgba(74, 144, 226, 0.05) 100%); border-radius: 12px; padding: 30px; border: 1px solid rgba(123, 60, 255, 0.2);">
+      
+      <!-- Type Badge -->
+      <div style="margin-bottom: 20px;">
+        {% if txn.type == 'credit' %}
+        <span style="display: inline-block; padding: 8px 18px; background: rgba(67, 233, 123, 0.2); color: #43e97b; border-radius: 16px; font-size: 13px; font-weight: 700; text-transform: uppercase;">
+          ↓ Credit Transaction
+        </span>
+        {% else %}
+        <span style="display: inline-block; padding: 8px 18px; background: rgba(255, 107, 107, 0.2); color: #ff6b6b; border-radius: 16px; font-size: 13px; font-weight: 700; text-transform: uppercase;">
+          ↑ Debit Transaction
+        </span>
+        {% endif %}
+      </div>
+
+      <!-- Amount Display -->
+      <div style="text-align: center; padding: 30px 0; margin-bottom: 30px; border-bottom: 1px solid rgba(123, 60, 255, 0.2);">
+        <div style="font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">
+          Transaction Amount
+        </div>
+        <div style="font-size: 48px; font-weight: 700; {% if txn.type == 'credit' %}color: #43e97b;{% else %}color: #ff6b6b;{% endif %}">
+          {% if txn.type == 'credit' %}+{% else %}-{% endif %}₹{{ txn.amount }}
+        </div>
+      </div>
+
+      <!-- Transaction Information Grid -->
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
+        
+        <!-- Merchant Name -->
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
+          <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Merchant / Payee
+          </div>
+          <div style="font-size: 16px; font-weight: 600; color: white;">
+            {{ txn.merchant_name or "Unknown" }}
+          </div>
+        </div>
+
+        <!-- Transaction Date -->
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
+          <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Date
+          </div>
+          <div style="font-size: 16px; font-weight: 600; color: white;">
+            {{ txn.date or "N/A" }}
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
+          <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Category
+          </div>
+          <div style="font-size: 16px; font-weight: 600; color: white;">
+            {{ txn.category or "Uncategorized" }}
+          </div>
+        </div>
+
+        <!-- Subcategory -->
+        {% if txn.subcategory %}
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
+          <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Subcategory
+          </div>
+          <div style="font-size: 16px; font-weight: 600; color: white;">
+            {{ txn.subcategory }}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Payment Channel -->
+        {% if txn.payment_channel %}
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
+          <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Payment Method
+          </div>
+          <div style="font-size: 16px; font-weight: 600; color: white;">
+            {{ txn.payment_channel }}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Weekday -->
+        {% if txn.weekday %}
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
+          <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Day of Week
+          </div>
+          <div style="font-size: 16px; font-weight: 600; color: white;">
+            {{ txn.weekday }}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Time of Day -->
+        {% if txn.time_of_day %}
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
+          <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Time of Day
+          </div>
+          <div style="font-size: 16px; font-weight: 600; color: white;">
+            {{ txn.time_of_day }}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Balance After Transaction -->
+        {% if txn.balance_after_txn %}
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
+          <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Balance After
+          </div>
+          <div style="font-size: 16px; font-weight: 600; color: white;">
+            ₹{{ txn.balance_after_txn }}
+          </div>
+        </div>
+        {% endif %}
+
+      </div>
+
+      <!-- Description Section -->
+      {% if txn.description or txn.clean_description %}
+      <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">
+          Description
+        </div>
+        <div style="font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.6;">
+          {{ txn.clean_description or txn.description }}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Additional Information -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
+        
+        <!-- Recurring -->
+        {% if txn.is_recurring is not none %}
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; text-align: center;">
+          <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Recurring
+          </div>
+          <div style="font-size: 16px; font-weight: 600; {% if txn.is_recurring %}color: #43e97b;{% else %}color: rgba(255,255,255,0.5);{% endif %}">
+            {{ "Yes" if txn.is_recurring else "No" }}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Suspicious -->
+        {% if txn.is_suspicious is not none %}
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; text-align: center;">
+          <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Flagged
+          </div>
+          <div style="font-size: 16px; font-weight: 600; {% if txn.is_suspicious %}color: #ff6b6b;{% else %}color: #43e97b;{% endif %}">
+            {{ "Yes" if txn.is_suspicious else "No" }}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Confidence Score -->
+        {% if txn.confidence_score %}
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; text-align: center;">
+          <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Confidence
+          </div>
+          <div style="font-size: 16px; font-weight: 600; color: #43e97b;">
+            {{ (txn.confidence_score * 100) | int }}%
+          </div>
+        </div>
+        {% endif %}
+
+      </div>
+
+      <!-- Transaction ID -->
+      <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; border: 1px dashed rgba(123, 60, 255, 0.3);">
+        <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+          Transaction ID
+        </div>
+        <div style="font-size: 13px; font-family: monospace; color: rgba(255,255,255,0.7);">
+          {{ txn.txn_id }}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}
