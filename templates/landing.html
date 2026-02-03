@@ -1,243 +1,353 @@
 {% extends "base.html" %}
-{% block title %}Project LUMEN - Smart Finance Tracker{% endblock %}
+{% block title %}Welcome to Lumen - Smart Finance Tracker{% endblock %}
 
 {% block head %}
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* Landing Page Video Styles */
-.video-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-    opacity: 0.1;
-}
+/* Dark Theme Login Page */
+.topbar { display: none; }
+.main { padding: 0; background: #0a0a0a; overflow: hidden; }
 
-.landing-left {
-    position: relative;
-    background: linear-gradient(135deg, rgba(26, 54, 93, 0.95), rgba(59, 130, 246, 0.85));
-}
-
-.video-demo-section {
-    margin: 30px 0;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.video-demo-section h3 {
-    color: white;
-    font-size: 18px;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.demo-video {
-    width: 100%;
-    height: 200px;
-    border-radius: 12px;
-    object-fit: cover;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.video-controls {
+.modern-login-container {
     display: flex;
+    height: 100vh;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+}
+
+/* Left Side - 3D Elements and Testimonial */
+.left-section {
+    flex: 1;
+    background: linear-gradient(135deg, #16213e 0%, #0f3460 50%, #533483 100%);
+    display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.video-btn {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 12px;
-    transition: all 0.3s ease;
-}
-
-.video-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
-}
-
-.login-box {
+    padding: 60px;
     position: relative;
     overflow: hidden;
 }
 
-.login-box::before {
+.left-section::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-    animation: shimmer 3s infinite;
-    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
 }
 
-@keyframes shimmer {
-    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+.testimonial-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 400px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
 }
 
-.enhanced-hero-text {
+.lumen-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    font-size: 24px;
     color: white;
-    font-size: 28px;
-    font-weight: 700;
-    text-align: center;
-    margin: 20px 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    animation: fadeInUp 1s ease-out;
+    font-weight: bold;
 }
 
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+.testimonial-text {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+
+.author-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.author-avatar {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.author-details h4 {
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.author-details p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Floating 3D Elements */
+.floating-element {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-element.element-1 {
+    width: 80px;
+    height: 80px;
+    top: 20%;
+    right: 10%;
+    animation-delay: 0s;
+}
+
+.floating-element.element-2 {
+    width: 60px;
+    height: 60px;
+    top: 60%;
+    right: 20%;
+    animation-delay: 2s;
+}
+
+.floating-element.element-3 {
+    width: 100px;
+    height: 60px;
+    top: 80%;
+    left: 15%;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-10px) rotate(2deg); }
+    50% { transform: translateY(-20px) rotate(-2deg); }
+    75% { transform: translateY(-10px) rotate(1deg); }
+}
+
+/* Right Side - Login Form */
+.right-section {
+    width: 480px;
+    background: #1a1a2e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    position: relative;
+}
+
+.login-form-container {
+    width: 100%;
+    max-width: 360px;
+}
+
+.welcome-title {
+    color: white;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.welcome-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.welcome-subtitle a {
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.welcome-subtitle a:hover {
+    text-decoration: underline;
+}
+
+.google-login-btn {
+    width: 100%;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-decoration: none;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+}
+
+.google-login-btn:hover {
+    background: #4338ca;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(79, 70, 229, 0.4);
+}
+
+.google-login-btn:active {
+    transform: translateY(0);
+}
+
+.google-icon {
+    font-size: 20px;
+}
+
+.features-preview {
+    margin-top: 40px;
+}
+
+.features-preview h3 {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin-bottom: 12px;
+    padding-left: 20px;
+    position: relative;
+    font-weight: 400;
+}
+
+.feature-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #10b981;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .modern-login-container {
+        flex-direction: column;
+    }
+    
+    .left-section {
+        display: none;
+    }
+    
+    .right-section {
+        width: 100%;
+        padding: 40px 20px;
+    }
 }
 </style>
 {% endblock %}
 
 {% block content %}
-<style>
-    .topbar { display: none; }
-    .main { padding: 0; background: white; overflow: hidden; }
-</style>
-
-<div class="landing-container">
-    <!-- LEFT SECTION WITH VIDEO BACKGROUND -->
-    <div class="landing-left">
-        <!-- Subtle background video -->
-        <video class="video-background" autoplay muted loop>
-            <source src="{{ url_for('static', filename='images/lumen-demo.mp4') }}" type="video/mp4">
-        </video>
+<div class="modern-login-container">
+    <!-- LEFT SECTION - 3D Elements and Testimonial -->
+    <div class="left-section">
+        <!-- Floating 3D Elements -->
+        <div class="floating-element element-1"></div>
+        <div class="floating-element element-2"></div>
+        <div class="floating-element element-3"></div>
         
-        <img src="{{ url_for('static', filename='images/hero.png') }}" class="hero-img" alt="Finance Illustration">
-        <h2 class="enhanced-hero-text">Your Smart Finance & Transaction Tracker</h2>
-        
-        <!-- Video Demo Section -->
-        <div class="video-demo-section">
-            <h3>🎬 See LUMEN in Action</h3>
-            <video class="demo-video" controls poster="{{ url_for('static', filename='images/hero.png') }}">
-                <source src="{{ url_for('static', filename='images/lumen-demo.mp4') }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <div class="video-controls">
-                <button class="video-btn" onclick="toggleVideo()">⏯️ Play/Pause</button>
-                <button class="video-btn" onclick="restartVideo()">🔄 Restart</button>
-            </div>
-        </div>
-        
-        <div class="landing-footer">
-            <div class="disclaimer">
-                Disclaimer: This project uses your consented financial data (receipts, bank statements) to analyze spending patterns and suggest potential insights. It is not professional financial advice and should not replace consultation with a qualified financial advisor. Always consult a professional for financial planning and decisions.
-            </div>
-            <div class="footer-bottom">
-                <div>
-                    <span style="font-size: 14px;">◼</span> Project LUMEN - All rights reserved - 2025
-                </div>
-                <div class="footer-links">
-                    <a href="#">ABOUT US</a>
-                    <a href="#">COMMUNITY</a>
-                    <a href="#">BLOG</a>
-                </div>
-                <div class="social-section">
-                    <span>FOLLOW US ON</span>
-                    <div class="social-icons">
-                        <a href="#">📷</a>
-                        <a href="#">f</a>
-                        <a href="#">𝕏</a>
-                    </div>
-                    <div class="email-input-wrapper">
-                        <input type="email" placeholder="Enter email address for updates">
-                        <button>→</button>
-                    </div>
+        <!-- Main Testimonial Card -->
+        <div class="testimonial-card">
+            <div class="lumen-icon">L</div>
+            
+            <p class="testimonial-text">
+                "Transform your financial habits with AI-powered insights. LUMEN makes expense tracking effortless while providing intelligent analysis that helps you make better money decisions every day."
+            </p>
+            
+            <div class="author-info">
+                <div class="author-avatar">JS</div>
+                <div class="author-details">
+                    <h4>Jaiprakash Sahu</h4>
+                    <p>Creator, Project LUMEN</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- RIGHT SECTION WITH ENHANCED LOGIN -->
-    <div class="landing-right">
-        <div class="login-box">
-            <h1 class="title">🌟 Project LUMEN</h1>
-            <p class="subtitle">AI-Powered Finance Analytics</p>
+    <!-- RIGHT SECTION - Login Form -->
+    <div class="right-section">
+        <div class="login-form-container">
+            <h1 class="welcome-title">Welcome to Lumen</h1>
+            <p class="welcome-subtitle">
+                Don't have an account? <a href="#features">See what's possible</a>
+            </p>
 
-            <a class="gmail-sync-button" href="{{ url_for('auth_google') }}">
-                <span class="icon">📧</span>
-                <div class="button-content">
-                    <div class="main-text">Start Your Journey</div>
-                    <div class="sub-label">Secure OAuth 2.0 Login</div>
-                </div>
-                <span class="lock-icon">🔒</span>
+            <a href="{{ url_for('auth_google') }}" class="google-login-btn">
+                <span class="google-icon">🌟</span>
+                <span>Continue with Google</span>
             </a>
 
-            <div class="login-disclaimer">
-                Experience the power of AI-driven financial insights. Connect securely and transform how you understand your money.
-            </div>
-
-            <div class="features-section">
-                <p class="features-title">✨ What makes LUMEN special:</p>
-                <ul class="features-list">
-                    <li>🤖 AI-powered spending analysis</li>
-                    <li>📊 Beautiful interactive dashboards</li>
-                    <li>🔍 Smart anomaly detection</li>
-                    <li>📱 Seamless Gmail integration</li>
-                    <li>🛡️ Bank-level security</li>
+            <div class="features-preview" id="features">
+                <h3>Unlock Financial Intelligence</h3>
+                <ul class="feature-list">
+                    <li>AI-powered spending analysis</li>
+                    <li>Automatic transaction categorization</li>
+                    <li>Smart anomaly detection</li>
+                    <li>Beautiful interactive dashboards</li>
+                    <li>Gmail integration for receipts</li>
                 </ul>
             </div>
-
-            <a href="#" class="back-link">← Explore Demo Above</a>
         </div>
     </div>
 </div>
 
 <script>
-// Video Control Functions
-function toggleVideo() {
-    const video = document.querySelector('.demo-video');
-    if (video.paused) {
-        video.play();
-    } else {
-        video.pause();
-    }
-}
-
-function restartVideo() {
-    const video = document.querySelector('.demo-video');
-    video.currentTime = 0;
-    video.play();
-}
-
-// Auto-pause background video on demo interaction
-document.addEventListener('DOMContentLoaded', function() {
-    const demoVideo = document.querySelector('.demo-video');
-    const bgVideo = document.querySelector('.video-background');
-    
-    if (demoVideo && bgVideo) {
-        demoVideo.addEventListener('play', () => {
-            bgVideo.pause();
-        });
-        
-        demoVideo.addEventListener('pause', () => {
-            bgVideo.play();
-        });
-    }
-    
-    // Add loading animation
-    const loginBox = document.querySelector('.login-box');
-    if (loginBox) {
-        loginBox.style.animation = 'fadeInUp 1.5s ease-out';
-    }
+// Smooth scroll to features when clicked
+document.querySelector('.welcome-subtitle a').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('features').scrollIntoView({ 
+        behavior: 'smooth' 
+    });
 });
+
+// Add loading animation
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.querySelector('.login-form-container');
+    container.style.animation = 'fadeInUp 1s ease-out';
+});
+
+// CSS animation keyframes
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+`;
+document.head.appendChild(style);
 </script>
 {% endblock %}
