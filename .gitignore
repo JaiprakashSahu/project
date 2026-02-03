@@ -34,6 +34,12 @@ Thumbs.db
 uploads/
 receipts/
 
+# Video files (may be too large for git)
+*.mp4
+*.avi
+*.mov
+*.wmv
+
 # Log files
 *.log
 

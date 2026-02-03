@@ -3,19 +3,139 @@
 
 {% block head %}
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Landing Page Video Styles */
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+.landing-left {
+    position: relative;
+    background: linear-gradient(135deg, rgba(26, 54, 93, 0.95), rgba(59, 130, 246, 0.85));
+}
+
+.video-demo-section {
+    margin: 30px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.video-demo-section h3 {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.demo-video {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.video-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.video-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.video-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.login-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.login-box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+    animation: shimmer 3s infinite;
+    z-index: -1;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.enhanced-hero-text {
+    color: white;
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin: 20px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
 {% endblock %}
 
 {% block content %}
 <style>
     .topbar { display: none; }
-    .main { padding: 0; background: white; }
+    .main { padding: 0; background: white; overflow: hidden; }
 </style>
 
 <div class="landing-container">
-    <!-- LEFT SECTION -->
+    <!-- LEFT SECTION WITH VIDEO BACKGROUND -->
     <div class="landing-left">
+        <!-- Subtle background video -->
+        <video class="video-background" autoplay muted loop>
+            <source src="{{ url_for('static', filename='images/lumen-demo.mp4') }}" type="video/mp4">
+        </video>
+        
         <img src="{{ url_for('static', filename='images/hero.png') }}" class="hero-img" alt="Finance Illustration">
-        <h2 class="hero-text">Your Smart Finance & Transaction Tracker</h2>
+        <h2 class="enhanced-hero-text">Your Smart Finance & Transaction Tracker</h2>
+        
+        <!-- Video Demo Section -->
+        <div class="video-demo-section">
+            <h3>🎬 See LUMEN in Action</h3>
+            <video class="demo-video" controls poster="{{ url_for('static', filename='images/hero.png') }}">
+                <source src="{{ url_for('static', filename='images/lumen-demo.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-controls">
+                <button class="video-btn" onclick="toggleVideo()">⏯️ Play/Pause</button>
+                <button class="video-btn" onclick="restartVideo()">🔄 Restart</button>
+            </div>
+        </div>
         
         <div class="landing-footer">
             <div class="disclaimer">
@@ -46,37 +166,78 @@
         </div>
     </div>
 
-    <!-- RIGHT SECTION -->
+    <!-- RIGHT SECTION WITH ENHANCED LOGIN -->
     <div class="landing-right">
         <div class="login-box">
-            <h1 class="title">Project LUMEN</h1>
-            <p class="subtitle">Gmail Integration Login</p>
+            <h1 class="title">🌟 Project LUMEN</h1>
+            <p class="subtitle">AI-Powered Finance Analytics</p>
 
             <a class="gmail-sync-button" href="{{ url_for('auth_google') }}">
                 <span class="icon">📧</span>
                 <div class="button-content">
-                    <div class="main-text">Login</div>
+                    <div class="main-text">Start Your Journey</div>
                     <div class="sub-label">Secure OAuth 2.0 Login</div>
                 </div>
                 <span class="lock-icon">🔒</span>
             </a>
 
             <div class="login-disclaimer">
-                This project uses your consented financial data (receipts, bank statements) to analyze spending patterns and suggest potential insights. It is not professional financial advice and should not replace consultation with a qualified financial advisor. Always consult a professional for financial planning and decisions.
+                Experience the power of AI-driven financial insights. Connect securely and transform how you understand your money.
             </div>
 
             <div class="features-section">
-                <p class="features-title">Securely connect your Gmail account to:</p>
+                <p class="features-title">✨ What makes LUMEN special:</p>
                 <ul class="features-list">
-                    <li>✓ Sync invoice emails with PDF attachments</li>
-                    <li>✓ Parse banking transaction notifications</li>
-                    <li>✓ Analyze spending patterns</li>
-                    <li>✓ Download receipts instantly</li>
+                    <li>🤖 AI-powered spending analysis</li>
+                    <li>📊 Beautiful interactive dashboards</li>
+                    <li>🔍 Smart anomaly detection</li>
+                    <li>📱 Seamless Gmail integration</li>
+                    <li>🛡️ Bank-level security</li>
                 </ul>
             </div>
 
-            <a href="#" class="back-link">← Back to Main App</a>
+            <a href="#" class="back-link">← Explore Demo Above</a>
         </div>
     </div>
 </div>
+
+<script>
+// Video Control Functions
+function toggleVideo() {
+    const video = document.querySelector('.demo-video');
+    if (video.paused) {
+        video.play();
+    } else {
+        video.pause();
+    }
+}
+
+function restartVideo() {
+    const video = document.querySelector('.demo-video');
+    video.currentTime = 0;
+    video.play();
+}
+
+// Auto-pause background video on demo interaction
+document.addEventListener('DOMContentLoaded', function() {
+    const demoVideo = document.querySelector('.demo-video');
+    const bgVideo = document.querySelector('.video-background');
+    
+    if (demoVideo && bgVideo) {
+        demoVideo.addEventListener('play', () => {
+            bgVideo.pause();
+        });
+        
+        demoVideo.addEventListener('pause', () => {
+            bgVideo.play();
+        });
+    }
+    
+    // Add loading animation
+    const loginBox = document.querySelector('.login-box');
+    if (loginBox) {
+        loginBox.style.animation = 'fadeInUp 1.5s ease-out';
+    }
+});
+</script>
 {% endblock %}
