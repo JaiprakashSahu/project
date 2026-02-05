@@ -1,16 +1,52 @@
 {% extends "base.html" %}
 {% block title %}Login - Lumen{% endblock %}
+
+{% block head %}
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap"
+  rel="stylesheet">
+<style>
+  /* Override global styles for login page specific needs if any leak through */
+  .topbar {
+    display: none !important;
+  }
+
+  .main {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    overflow-x: hidden;
+    background-color: #171716;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="centered">
-  <div class="card small">
-    <h2>Login</h2>
-    <form method="post">
-      <label>Email</label>
-      <input name="email" type="email" required>
-      <label>Password</label>
-      <input name="password" type="password" required>
-      <button class="btn-primary">Login</button>
-    </form>
+<div class="login-page-container">
+
+  <!-- Left Side: Hero Image -->
+  <div class="login-hero-section">
+    <div class="login-hero-overlay"></div>
+    <div class="login-hero-quote">
+      I don’t have to worry about any thing because I have <strong>LUMEN</strong>
+    </div>
   </div>
-</section>
+
+  <!-- Right Side: Login Content -->
+  <div class="login-content-section">
+    <div class="login-content-inner">
+      <h1 class="lumen-logo-title">LUMEN</h1>
+      <p class="lumen-subtitle">Smart Finance Tracker</p>
+
+      <a href="#" class="google-login-btn">
+        Google
+      </a>
+    </div>
+  </div>
+
+</div>
 {% endblock %}

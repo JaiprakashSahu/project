@@ -136,7 +136,12 @@ def login_page():
     if "credentials" in session:
         return redirect(url_for("dashboard_analytics"))
     else:
-        return render_template("landing.html")
+        return render_template("login.html")
+
+@app.route("/login-with-google")
+def login_with_google():
+    """Route for the Google login button"""
+    return redirect(url_for("auth_google"))
 
 
 # ---------------------- GOOGLE LOGIN ----------------------

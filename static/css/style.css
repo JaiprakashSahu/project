@@ -50,7 +50,7 @@
     /* Sidebar Width */
     --sidebar-width: 240px;
 }
-}
+
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -428,18 +428,24 @@ body {
 }
 
 @keyframes shimmer {
-    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+
+    100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
 }
 
 @keyframes fadeInUp {
-    from { 
-        opacity: 0; 
-        transform: translateY(30px); 
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
-    to { 
-        opacity: 1; 
-        transform: translateY(0); 
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -465,9 +471,17 @@ body {
 }
 
 @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .gmail-sync-button:hover {
@@ -479,20 +493,20 @@ body {
     .landing-container {
         flex-direction: column;
     }
-    
+
     .landing-left {
         padding: 20px;
     }
-    
+
     .video-demo-section {
         margin: 20px 0;
         padding: 15px;
     }
-    
+
     .demo-video {
         height: 180px;
     }
-    
+
     .enhanced-hero-text {
         font-size: 22px;
     }
@@ -1416,5 +1430,167 @@ select:focus {
 
     .landing-right {
         width: 100%;
+    }
+}
+
+/* ========== NEW LOGIN PAGE STYLES ========== */
+
+.login-page-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background-color: #171716;
+    overflow: hidden;
+}
+
+/* LEFT SIDE: HERO */
+.login-hero-section {
+    position: relative;
+    width: 60%;
+    height: 100%;
+    background-image: url('../images/hero.png');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Gradient Overlay */
+.login-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* "Add subtle dark gradient overlay on right side" */
+    background: linear-gradient(to right, transparent 0%, rgba(23, 23, 22, 0.4) 70%, rgba(23, 23, 22, 0.9) 100%);
+    pointer-events: none;
+}
+
+/* Hero Quote */
+.login-hero-quote {
+    position: absolute;
+    left: 40px;
+    bottom: 100px;
+    max-width: 400px;
+    z-index: 10;
+
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: right;
+    color: #171716;
+    /* Per Figma requirement */
+    /* Ensure visibility if needed, but sticking to design spec first. */
+}
+
+/* RIGHT SIDE: CONTENT */
+.login-content-section {
+    width: 40%;
+    height: 100%;
+    background-color: #171716;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+}
+
+.login-content-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 450px;
+}
+
+/* LUMEN Title - Large Thin */
+.lumen-logo-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 100;
+    /* Thin */
+    font-size: 96px;
+    line-height: 1;
+    color: #FFFFFF;
+    margin-bottom: 16px;
+    letter-spacing: -2px;
+}
+
+/* Subtitle: "Smart Finance Tracker" */
+.lumen-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 100;
+    font-size: 32px;
+    line-height: 1.2;
+    color: #FFFFFF;
+    margin-bottom: 80px;
+    white-space: nowrap;
+}
+
+/* Google Button */
+.google-login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 245px;
+    height: 60px;
+    border: 1px solid #FFFFFF;
+    border-radius: 50px;
+    background: transparent;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 200;
+    font-size: 28px;
+    line-height: normal;
+    color: #FFFFFF;
+    text-decoration: none;
+
+    transition: all 0.3s ease;
+}
+
+.google-login-btn:hover {
+    background-color: #FFFFFF;
+    color: #171716;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .login-page-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .login-hero-section {
+        width: 100%;
+        height: 45vh;
+        min-height: 300px;
+    }
+
+    .login-hero-quote {
+        left: 20px;
+        right: 20px;
+        bottom: 30px;
+        text-align: center;
+        width: auto;
+        max-width: none;
+    }
+
+    .login-content-section {
+        width: 100%;
+        height: auto;
+        flex: 1;
+        padding: 40px 20px;
+    }
+
+    .lumen-logo-title {
+        font-size: 64px;
+    }
+
+    .lumen-subtitle {
+        font-size: 24px;
+        margin-bottom: 50px;
     }
 }
